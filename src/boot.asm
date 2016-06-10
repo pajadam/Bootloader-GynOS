@@ -29,7 +29,13 @@
 	jmp loop
  
 loop:
-   jmp loop
+	; WAIT FOR ANY KEY
+	mov ah, 00h
+	int 16h
+	
+	; THEN START BOOTING
+
+	jmp loop
  
    times 510-($-$$) db 0
    db 0x55
