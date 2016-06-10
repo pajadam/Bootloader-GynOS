@@ -10,6 +10,14 @@
 		; 0x42   20
 		; SCREEN SIZE 80 * 25 | 2 BYTES
 		
+		; BIOS WAIT AS MICROSECONDS
+		; mov ah, 86h
+		; mov bx, bx
+		; mov ax, ax
+		; mov cx, 0x00001
+		; mov dx, 0xFFFFF
+		; int 15h
+		
 		mov bx, 0 ; position
 		mov ax, 0xF054 ; data
 		mov [fs:bx], ax ; set
