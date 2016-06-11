@@ -103,10 +103,7 @@
 			mov bx, 3836 ; position
 			mov ax, 0xEF59 ; data
 			mov [fs:bx], ax ; set
-	
-	jmp loop
  
-loop:
 	; WAIT FOR ANY KEY
 	mov ah, 00h
 	int 16h
@@ -123,8 +120,28 @@ loop:
 	loop loopClearA
 	
 	; THEN START BOOTING
+	
+		; Load from floppy stage 2.
+		; DL == already set by BIOS
+		; AX -- 16 bits, AH AL -- 8 bits
+		; EAX -- AX
+		  
+		mov ax, 0x2000 ; 0x2000:0x0000
+		mov es, ax
+		xor bx, bx ; bx == 0
 
-	jmp loop
+		mov ah, 2  ; read sectors into memory
+		mov al, 0xcc  ; 1337 stage2  3 * 512 
+		nop
+		nop
+		mov ch, 0
+		mov cl, 2  ; sectors start from 1, or so they say ;)
+		mov dh, 0
+
+		int 13h
+		  
+		; Jump to stage 2
+		jmp word 0x2000:0x0000
 
 epilogue:
 	%if ($ - $$) > 510
