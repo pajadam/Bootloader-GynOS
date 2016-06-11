@@ -25,30 +25,83 @@
 		
 		; CLEAR SCREEN
 		mov ecx, 3998
-		loopClear:
 		
+		mov bx, 0 ; position
+		mov ax, 0x0020 ; data
+		mov [fs:bx], ax ; set
+		
+		loopClearW:
+			
+			mov bx, cx ; position
+			mov ax, 0xE020 ; data
+			mov [fs:bx], ax ; set
+			dec ecx
+			
+		loop loopClearW
+		
+		mov ecx, 3518
+		
+		loopClearB:
+			
 			mov bx, cx ; position
 			mov ax, 0x0020 ; data
 			mov [fs:bx], ax ; set
 			dec ecx
 			
-		loop loopClear
+		loop loopClearB
 		
-		mov bx, 0 ; position
-		mov ax, 0xF054 ; data
-		mov [fs:bx], ax ; set
-		
-		mov bx, 2 ; position
-		mov ax, 0xF045 ; data
-		mov [fs:bx], ax ; set
-		
-		mov bx, 4 ; position
-		mov ax, 0xF053 ; data
-		mov [fs:bx], ax ; set
-		
-		mov bx, 6 ; position
-		mov ax, 0xF054 ; data
-		mov [fs:bx], ax ; set
+		; P
+			mov bx, 3812 ; position
+			mov ax, 0xEF50 ; data
+			mov [fs:bx], ax ; set
+		; R
+			mov bx, 3814 ; position
+			mov ax, 0xEF52 ; data
+			mov [fs:bx], ax ; set
+		; E
+			mov bx, 3816 ; position
+			mov ax, 0xEF45 ; data
+			mov [fs:bx], ax ; set
+		; S
+			mov bx, 3818 ; position
+			mov ax, 0xEF53 ; data
+			mov [fs:bx], ax ; set
+		; S
+			mov bx, 3820 ; position
+			mov ax, 0xEF53 ; data
+			mov [fs:bx], ax ; set
+		; [space]
+			mov bx, 3822 ; position
+			mov ax, 0xEF20 ; data
+			mov [fs:bx], ax ; set
+		; A
+			mov bx, 3824 ; position
+			mov ax, 0xEF41 ; data
+			mov [fs:bx], ax ; set
+		; N
+			mov bx, 3826 ; position
+			mov ax, 0xEF4E ; data
+			mov [fs:bx], ax ; set
+		; Y
+			mov bx, 3828 ; position
+			mov ax, 0xEF59 ; data
+			mov [fs:bx], ax ; set
+		; [space]
+			mov bx, 3830 ; position
+			mov ax, 0xEF20 ; data
+			mov [fs:bx], ax ; set
+		; K
+			mov bx, 3832 ; position
+			mov ax, 0xEF4B ; data
+			mov [fs:bx], ax ; set
+		; E
+			mov bx, 3834 ; position
+			mov ax, 0xEF45 ; data
+			mov [fs:bx], ax ; set
+		; Y
+			mov bx, 3836 ; position
+			mov ax, 0xEF59 ; data
+			mov [fs:bx], ax ; set
 	
 	jmp loop
  
@@ -56,6 +109,17 @@ loop:
 	; WAIT FOR ANY KEY
 	mov ah, 00h
 	int 16h
+	
+	; CLEAR SCREEN
+	mov ecx, 3998
+	loopClearA:
+			
+		mov bx, cx ; position
+		mov ax, 0x0020 ; data
+		mov [fs:bx], ax ; set
+		dec ecx
+			
+	loop loopClearA
 	
 	; THEN START BOOTING
 
