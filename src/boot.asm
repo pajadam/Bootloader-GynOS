@@ -1,3 +1,4 @@
+[bits 16]
 [ORG 0x7c00]
 	; Clear interrupts flag
 	cli 
@@ -124,7 +125,12 @@ loop:
 	; THEN START BOOTING
 
 	jmp loop
- 
-   times 510-($-$$) db 0
-   db 0x55
-   db 0xAA
+
+epilogue:
+	%if ($ - $$) > 510
+	  %fatal "Bootloader code exceed 512 bytes."
+	%endif
+
+	times 510 - ($ - $$) db 0
+	db 0x55
+	db 0xAA
