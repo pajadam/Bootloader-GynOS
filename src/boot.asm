@@ -18,6 +18,11 @@
 		; mov dx, 0xFFFFF
 		; int 15h
 		
+		; HIDE CURSOR
+		mov ah, 01h
+		mov cx, 2607h
+		int 10h
+		
 		mov bx, 0 ; position
 		mov ax, 0xF054 ; data
 		mov [fs:bx], ax ; set
