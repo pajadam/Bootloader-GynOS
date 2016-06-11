@@ -23,6 +23,17 @@
 		mov cx, 2607h
 		int 10h
 		
+		; CLEAR SCREEN
+		mov ecx, 3998
+		loopClear:
+		
+			mov bx, cx ; position
+			mov ax, 0x0020 ; data
+			mov [fs:bx], ax ; set
+			dec ecx
+			
+		loop loopClear
+		
 		mov bx, 0 ; position
 		mov ax, 0xF054 ; data
 		mov [fs:bx], ax ; set
