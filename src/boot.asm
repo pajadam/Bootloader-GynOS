@@ -113,7 +113,7 @@
 	loopClearA:
 			
 		mov bx, cx ; position
-		mov ax, 0x0020 ; data
+		mov ax, 0x0700 ; data
 		mov [fs:bx], ax ; set
 		dec ecx
 			
