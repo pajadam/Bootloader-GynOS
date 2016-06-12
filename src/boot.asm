@@ -11,26 +11,14 @@
 		; 0x42   20
 		; SCREEN SIZE 80 * 25 | 2 BYTES
 		
-		; BIOS WAIT AS MICROSECONDS
-		; mov ah, 86h
-		; mov bx, bx
-		; mov ax, ax
-		; mov cx, 0x00001
-		; mov dx, 0xFFFFF
-		; int 15h
-		
 		; HIDE CURSOR
 		mov ah, 01h
 		mov cx, 2607h
 		int 10h
 		
 		; CLEAR SCREEN
+		
 		mov ecx, 3998
-		
-		mov bx, 0 ; position
-		mov ax, 0x0020 ; data
-		mov [fs:bx], ax ; set
-		
 		loopClearW:
 			
 			mov bx, cx ; position
@@ -40,70 +28,187 @@
 			
 		loop loopClearW
 		
+		mov bx, 0 ; position
+		mov ax, 0xB020 ; data
+		mov [fs:bx], ax ; set
+		
+		
+		; DRAW TARGET IMAGE
 		mov ecx, 3518
+		loopDraw:
 		
-		loopClearB:
-			
 			mov bx, cx ; position
-			mov ax, 0x0020 ; data
 			mov [fs:bx], ax ; set
-			dec ecx
 			
-		loop loopClearB
+			; SET COLOR
+				; MONITOR STAND
+				cmp ecx, 3478
+					je gray
+				cmp ecx, 3398
+					je cyan
+				; MONITOR STAND UPPER
+				cmp ecx, 3288
+					je gray			
+				cmp ecx, 3268
+					je cyan				
+				cmp ecx, 3128
+					je gray				
+				cmp ecx, 3108
+					je cyan
+				; DISPLAY
+				cmp ecx, 3030
+					je gray
+				cmp ecx, 2890
+					je cyan
+				cmp ecx, 310
+					je gray
+				cmp ecx, 170
+					je cyan
+			
+			; AFTER COLORS
+			afterColors:
+			dec ecx
 		
-		; P
-			mov bx, 3812 ; position
-			mov ax, 0xEF50 ; data
+		loop loopDraw
+			
+			; DRAW MONITOR BLACK BACKGROUND
+			mov ecx, 329
+			loopBackground:
+				add ecx, 3
+				mov bx, cx
+				mov ax, 0x0020 ; data
+				
+				cmp cx, 2870
+				je afterBG
+				
+				mov [fs:bx], ax ; set
+			
+			loop loopBackground
+			afterBG:
+
+			
+			; DRAW MONITOR BORDER
+			mov cx, 169
+			mov ax, 0x7020 ; data
+			loopMonitorBorders:
+				add cx, 161
+				mov bx, cx
+					
+				cmp cx, 3050
+				je afterLP
+				
+				cmp cx, 3190
+				je afterLPR
+				
+				cmp cx, 3032
+				je afterLPR
+				
+				cmp cx, 3034
+				je afterLPR
+				
+				cmp cx, 3036
+				je afterLPR
+				
+				cmp cx, 3038
+				je afterLPR
+				
+				cmp cx, 3040
+				je afterB3
+				
+				cmp cx, 3042
+				je afterB3
+				
+				cmp cx, 3044
+				je afterB3
+				
+				cmp cx, 3046
+				je afterB3
+				
+				cmp cx, 3048
+				je afterB3
+				
+				mov [fs:bx], ax ; set
+			
+			loop loopMonitorBorders
+			afterLP:
+				mov cx, 149
+				mov dx, cx
+				jmp loopMonitorBorders
+			afterLPR:
+				add dx, 2
+				mov cx, dx
+				mov ax, 0xB020
+				cmp cx, 159
+				je afterB2
+				jmp loopMonitorBorders
+			afterB2:
+				mov dx, 157
+			afterB3:
+				add dx, 2
+				mov cx, dx
+				cmp cx, 169
+				je afterB4
+				jmp loopMonitorBorders
+			afterB4:	
+		
+			; DRAW TERMINAL CHARS
+			mov bx, 332 ; position
+			mov ax, 0x073E ; data
 			mov [fs:bx], ax ; set
-		; R
-			mov bx, 3814 ; position
-			mov ax, 0xEF52 ; data
+			
+			mov bx, 334 ; position
+			mov ax, 0x0772 ; data
 			mov [fs:bx], ax ; set
-		; E
-			mov bx, 3816 ; position
-			mov ax, 0xEF45 ; data
+			
+			mov bx, 336 ; position
+			mov ax, 0x0775 ; data
 			mov [fs:bx], ax ; set
-		; S
-			mov bx, 3818 ; position
-			mov ax, 0xEF53 ; data
+			
+			mov bx, 338 ; position
+			mov ax, 0x076E ; data
 			mov [fs:bx], ax ; set
-		; S
-			mov bx, 3820 ; position
-			mov ax, 0xEF53 ; data
+			
+			mov bx, 340 ; position
+			mov ax, 0x875F ; data
 			mov [fs:bx], ax ; set
-		; [space]
-			mov bx, 3822 ; position
-			mov ax, 0xEF20 ; data
+		
+		jmp continue
+		
+			cyan:
+				mov ax, 0xB020
+			jmp afterColors
+			
+			gray:
+				mov ax, 0xF020
+			jmp afterColors
+			
+			black:
+				mov ax, 0x0720
+			jmp afterColors
+		
+		continue:
+			;GynvaelOS	
+			
+			mov bx, 2860 ; position
+			mov ax, 0x0947 ; data
 			mov [fs:bx], ax ; set
-		; A
-			mov bx, 3824 ; position
-			mov ax, 0xEF41 ; data
+			
+			mov bx, 2862 ; position
+			mov ax, 0x0979 ; data
 			mov [fs:bx], ax ; set
-		; N
-			mov bx, 3826 ; position
-			mov ax, 0xEF4E ; data
+			
+			mov bx, 2864 ; position
+			mov ax, 0x096E ; data
 			mov [fs:bx], ax ; set
-		; Y
-			mov bx, 3828 ; position
-			mov ax, 0xEF59 ; data
+			
+			mov bx, 2866 ; position
+			mov ax, 0x034F ; data
 			mov [fs:bx], ax ; set
-		; [space]
-			mov bx, 3830 ; position
-			mov ax, 0xEF20 ; data
+			
+			mov bx, 2868 ; position
+			mov ax, 0x0353 ; data
 			mov [fs:bx], ax ; set
-		; K
-			mov bx, 3832 ; position
-			mov ax, 0xEF4B ; data
-			mov [fs:bx], ax ; set
-		; E
-			mov bx, 3834 ; position
-			mov ax, 0xEF45 ; data
-			mov [fs:bx], ax ; set
-		; Y
-			mov bx, 3836 ; position
-			mov ax, 0xEF59 ; data
-			mov [fs:bx], ax ; set
- 
+	
 	; WAIT FOR ANY KEY
 	mov ah, 00h
 	int 16h
@@ -118,6 +223,10 @@
 		dec ecx
 			
 	loop loopClearA
+	
+	mov bx, 0 ; position
+	mov ax, 0x0700 ; data
+	mov [fs:bx], ax ; set
 	
 	; THEN START BOOTING
 	
@@ -147,7 +256,7 @@ epilogue:
 	%if ($ - $$) > 510
 	  %fatal "Bootloader code exceed 512 bytes."
 	%endif
-
+	
 	times 510 - ($ - $$) db 0
 	db 0x55
 	db 0xAA
