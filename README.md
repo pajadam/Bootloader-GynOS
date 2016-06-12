@@ -4,7 +4,10 @@ This is 512 bytes size bootloader that draws cool graphics on screen.
 
 # How to use?
 
-Simply run 'make && run' in project directory. It will generate *.bin file and open it using Bochs with attached config. 
+Simply run 'python build.py && ./run.sh' in project directory. It will generate *.bin file and open it using Bochs with attached config. 
+
+You can run it on Windows too using 'run' in project directory. But you need to build it on 64 bit Linux
+
 
 # What I need to build this one?
 
