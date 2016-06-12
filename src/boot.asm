@@ -56,13 +56,13 @@
 				cmp ecx, 3108
 					je cyan
 				; DISPLAY
-				cmp ecx, 3030
+				cmp ecx, 3040
 					je gray
-				cmp ecx, 2890
+				cmp ecx, 2880
 					je cyan
-				cmp ecx, 310
+				cmp ecx, 320
 					je gray
-				cmp ecx, 170
+				cmp ecx, 160
 					je cyan
 			
 			; AFTER COLORS
@@ -72,103 +72,95 @@
 		loop loopDraw
 			
 			; DRAW MONITOR BLACK BACKGROUND
-			mov ecx, 329
+			mov ecx, 317
 			loopBackground:
 				add ecx, 3
 				mov bx, cx
 				mov ax, 0x0020 ; data
 				
-				cmp cx, 2870
+				cmp cx, 2880
 				je afterBG
 				
 				mov [fs:bx], ax ; set
 			
 			loop loopBackground
 			afterBG:
+			
+			; DRAW INFO
+			mov bx, 2720 ; position
+			mov ax, 0x873A ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2722 ; position
+			mov ax, 0x0750 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2724 ; position
+			mov ax, 0x0752 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2726 ; position
+			mov ax, 0x0745 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2728 ; position
+			mov ax, 0x0753 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2730 ; position
+			mov ax, 0x0753 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2732 ; position
+			mov ax, 0x0720 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2734 ; position
+			mov ax, 0x0741 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2736 ; position
+			mov ax, 0x074E ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2738 ; position
+			mov ax, 0x0759 ; data
+			mov [fs:bx], ax ; set
+			
+			mov bx, 2740 ; position
+			mov ax, 0x0720 ; data
+			mov [fs:bx], ax ; set
 
+			mov bx, 2742 ; position
+			mov ax, 0x074B ; data
+			mov [fs:bx], ax ; set
 			
-			; DRAW MONITOR BORDER
-			mov cx, 169
-			mov ax, 0x7020 ; data
-			loopMonitorBorders:
-				add cx, 161
-				mov bx, cx
-					
-				cmp cx, 3050
-				je afterLP
-				
-				cmp cx, 3190
-				je afterLPR
-				
-				cmp cx, 3032
-				je afterLPR
-				
-				cmp cx, 3034
-				je afterLPR
-				
-				cmp cx, 3036
-				je afterLPR
-				
-				cmp cx, 3038
-				je afterLPR
-				
-				cmp cx, 3040
-				je afterB3
-				
-				cmp cx, 3042
-				je afterB3
-				
-				cmp cx, 3044
-				je afterB3
-				
-				cmp cx, 3046
-				je afterB3
-				
-				cmp cx, 3048
-				je afterB3
-				
-				mov [fs:bx], ax ; set
+			mov bx, 2744 ; position
+			mov ax, 0x0745 ; data
+			mov [fs:bx], ax ; set
 			
-			loop loopMonitorBorders
-			afterLP:
-				mov cx, 149
-				mov dx, cx
-				jmp loopMonitorBorders
-			afterLPR:
-				add dx, 2
-				mov cx, dx
-				mov ax, 0xB020
-				cmp cx, 159
-				je afterB2
-				jmp loopMonitorBorders
-			afterB2:
-				mov dx, 157
-			afterB3:
-				add dx, 2
-				mov cx, dx
-				cmp cx, 169
-				je afterB4
-				jmp loopMonitorBorders
-			afterB4:	
+			mov bx, 2746 ; position
+			mov ax, 0x0759 ; data
+			mov [fs:bx], ax ; set
 		
 			; DRAW TERMINAL CHARS
-			mov bx, 332 ; position
+			mov bx, 320 ; position
 			mov ax, 0x073E ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 334 ; position
+			mov bx, 322 ; position
 			mov ax, 0x0772 ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 336 ; position
+			mov bx, 324 ; position
 			mov ax, 0x0775 ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 338 ; position
+			mov bx, 326 ; position
 			mov ax, 0x076E ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 340 ; position
+			mov bx, 328 ; position
 			mov ax, 0x875F ; data
 			mov [fs:bx], ax ; set
 		
@@ -189,23 +181,23 @@
 		continue:
 			;GynvaelOS	
 			
-			mov bx, 2860 ; position
+			mov bx, 2870 ; position
 			mov ax, 0x0947 ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 2862 ; position
+			mov bx, 2872 ; position
 			mov ax, 0x0979 ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 2864 ; position
+			mov bx, 2874 ; position
 			mov ax, 0x096E ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 2866 ; position
+			mov bx, 2876 ; position
 			mov ax, 0x034F ; data
 			mov [fs:bx], ax ; set
 			
-			mov bx, 2868 ; position
+			mov bx, 2878 ; position
 			mov ax, 0x0353 ; data
 			mov [fs:bx], ax ; set
 	
@@ -234,7 +226,8 @@
 		; DL == already set by BIOS
 		; AX -- 16 bits, AH AL -- 8 bits
 		; EAX -- AX
-		  
+		mov ecx, ecx
+		mov edx, edx
 		mov ax, 0x2000 ; 0x2000:0x0000
 		mov es, ax
 		xor bx, bx ; bx == 0
