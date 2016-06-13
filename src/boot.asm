@@ -179,7 +179,7 @@
 			jmp afterColors
 		
 		continue:
-			;GynvaelOS	
+			; "GynOS"	
 			
 			mov bx, 2870 ; position
 			mov ax, 0x0947 ; data
