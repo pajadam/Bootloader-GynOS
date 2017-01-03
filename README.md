@@ -2,7 +2,7 @@
 
 This is 512 bytes size bootloader that draws cool graphics on screen and loading operating system made by [Gynvael Coldwind](http://gynvael.coldwind.pl/).
 
-![screenshot1](https://pajadam.github.io/img/boot/boot_0.png "Screenshot #1")
+[![screenshot1](https://blog.pajadam.me/data/posts/boot/boot_0.png)](https://blog.pajadam.me/posts/Bootloader-for-Gynvael.Coldwind-OS/)
 
 # How to use?
 
